@@ -1,0 +1,13 @@
+.page-wrapper {
+  background: var(--#{$prefix}topnav-bg);
+  margin-top: $header-height !important;
+  //min-height: $page-wrapper-height;
+  //margin-bottom: 4rem !important;
+  height: inherit;
+}
+.settings-page-wrapper {
+  background: var(--#{$prefix}topnav-bg);
+  //height: $page-wrapper-height;
+  //height: $page-wrapper-height;
+  //margin-top: $header-height !important;
+}

@@ -1,0 +1,39 @@
+.reactionz-extension-chat-content-frame.user-chat {
+    top: 0;
+    .user-chat-remove {
+        display: none !important;
+    }
+    .chat-content,
+    .user-chat-topbar {
+        border: 1px solid #8080801c;
+    }
+
+    @media (max-width: 991.98px) {
+    }
+    .chat-conversation {
+        height: calc(100vh - 147px);
+    }
+
+    .send-template-modal .dropdown-menu {
+        transform: translate(44px, 38px) !important;
+        .send-template-message-form.template-components-container {
+            height: 21rem;
+            .send-template-message-form-content {
+                max-height: 18rem;
+            }
+        }
+        .templates-list-dropdown-wrapper {
+            .dropdown-menu.show {
+                height: 250px;
+                .templates-list {
+                    max-height: 200px;
+                }
+            }
+        }
+    }
+    .templates-list-dropdown-wrapper {
+        .dropdown-menu-end {
+            transform: translate(-9px, 38px) !important;
+        }
+    }
+}

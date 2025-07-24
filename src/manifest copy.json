@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "Reactionz",
+    "description": "Reactionz Chat Plugin",
+    "version": "2.0",
+    "action": {
+        "default_icon": {
+            "16": "icon.png"
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["vendor.js", "js/content_script.js"]
+        }
+    ],
+    "background": {
+        "service_worker": "js/background.js",
+        "type": "module"
+    },
+    "permissions": ["tabs", "storage"],
+    "host_permissions": ["<all_urls>"],
+    "web_accessible_resources": [
+        {
+            "resources": ["index.html"],
+            "matches": ["<all_urls>"]
+        }
+    ],
+
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self';"
+    }
+}

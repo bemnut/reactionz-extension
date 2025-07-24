@@ -1,0 +1,98 @@
+.voice-recorder_maincontainer {
+    position: absolute;
+    bottom: -16px;
+    right: 6px;
+    .voice-recorder_download {
+        margin-left: 0 !important;
+    }
+}
+
+.rtl-wrapper[dir="rtl"] {
+    .voice-recorder_maincontainer {
+        .voice-recorder_download {
+            margin-left: auto !important;
+        }
+    }
+    .voice-recorder_control-close-button {
+        // right: -8px;
+        right: unset;
+        left: 60px;
+    }
+}
+.voice-recorder_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .status-duration {
+        .recording-status {
+        }
+        .duration {
+        }
+    }
+    .audio-controls {
+        display: flex;
+        // /justify-content: space-between;
+        align-items: center;
+        .audio-control {
+            font-size: 22px;
+        }
+        // button {
+        //     box-shadow: none;
+        //     font-size: 13px;
+        //     height: 26.5px;
+        //     padding: 0;
+        //     width: 28.5px;
+        // }
+    }
+}
+
+.voice-recorder_control-close-button {
+    position: absolute;
+
+    bottom: -16px;
+    align-items: center;
+    aspect-ratio: 1;
+    background: rgba(128, 128, 128, 0.1607843137);
+    background-image: -webkit-linear-gradient(
+        283deg,
+        rgba(236, 236, 236, 0.83) 50%,
+        #dbdbdb 65%
+    );
+    border: 1px solid #d8d5d5;
+    border-radius: 100%;
+    box-shadow: 0 0 8px #d2d2d2;
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+    transition: all 0.2s ease-in-out;
+    width: 35px;
+    height: 35px;
+    color: black;
+    font-weight: 900;
+    left: unset;
+    right: 5px;
+}
+
+.reactionz-audio-recorder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+        @include audioControlButton();
+    }
+    .audio-visualization {
+        flex-grow: 1;
+        canvas {
+            width: 99%;
+        }
+    }
+    .audio-controls {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+    .audio-progress {
+        width: 100%;
+    }
+}

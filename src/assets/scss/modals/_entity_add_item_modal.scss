@@ -1,0 +1,24 @@
+.entity-items-addmodal {
+  .modal-body {
+    .input-wrapper {
+      .input-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 4px;
+        label {
+          margin-bottom: 0;
+          color: rgb(184, 184, 184);
+          text-overflow: ellipsis;
+        }
+        .required {
+          display: inline-flex;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color: rgb(247, 68, 99);
+          margin-inline-start: 4px;
+        }
+      }
+    }
+  }
+}

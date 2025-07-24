@@ -1,0 +1,371 @@
+.settings-page-wrapper {
+  height: inherit;
+
+  .settings-pane {
+    height: inherit;
+    .settings-pane-left {
+      .settings-menu-wrapper {
+        width: 100%;
+        border-right: 1px solid var(--#{$prefix}header-border);
+        border-bottom: 1px solid var(--#{$prefix}header-border);
+        // text-align: center;
+
+        .settings-menu-icon {
+          text-align: center;
+          .icon {
+            display: flex;
+            justify-content: center;
+            & > div {
+              width: 60px;
+              height: 60px;
+              background: #292969;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            i {
+              font-size: 2.75rem;
+              //padding: 0.3rem 0.45rem;
+
+              color: #dedede;
+            }
+          }
+        }
+        .settings-menu {
+          font-size: 14px;
+          .nav-link {
+            font-family: "hkgrotesk", sans-serif;
+            font-size: 0.9375rem;
+            padding: 0.5rem 0.05rem;
+            i {
+              font-size: 18px;
+            }
+            &:hover,
+            &.active {
+              color: var(--#{$prefix}topnav-item-active-color);
+              background-color: #eff2f7;
+            }
+          }
+        }
+      }
+    }
+    .settings-pane-right {
+      .settings-right-pane-wrapper {
+        //height: 100%;
+        .settings-submenu.navbar-nav {
+          height: $setting-sub-menu-height;
+          border-bottom: 1px solid var(--#{$prefix}header-border);
+          flex-direction: row;
+          //justify-content: space-around;
+          .nav-link {
+            font-size: 0.9375rem;
+            font-family: "hkgrotesk", sans-serif;
+            padding: 1.5rem 1rem;
+            &.active {
+              color: var(--#{$prefix}topnav-item-active-color);
+              //color: $primary;
+              border-bottom: 2px solid $primary;
+            }
+          }
+        }
+        .settings-content-pane-wrapper {
+          height: $settings-content-pane-wrapper-height;
+          .settings-secondary-menu {
+            height: $settings-secondary-menu-height;
+            border: 1px solid var(--#{$prefix}header-border);
+          }
+
+          .settings-main-content-pane {
+            height: inherit;
+            &.settings-list-page > .settings-page-main-content {
+              overflow: auto;
+              height: inherit;
+            }
+            .sidebar {
+              border-right: 1px solid var(--#{$prefix}header-border);
+            }
+            .settings-page-main-content {
+              &.settings-list-page {
+                overflow: auto;
+                height: inherit;
+              }
+              .records-list-wrapper {
+                .record-wrapper {
+                  padding: 1rem;
+                  border: 1px solid var(--#{$prefix}header-border);
+                }
+                .swiper {
+                  .swiper-pagination {
+                    bottom: 0 !important;
+                  }
+                  .swiper-pagination-bullet {
+                    background: #ecf1fd !important;
+                    opacity: 1 !important;
+                    height: 8px !important;
+                    width: 8px !important;
+                    border-radius: 50%;
+                    border: 1px solid var(--#{$prefix}header-border);
+                  }
+                  .swiper-pagination-bullet-active {
+                    background: #436fc6 !important;
+                    border: none;
+                  }
+                  .swiper-wrapper {
+                    margin-bottom: 2rem;
+                  }
+                }
+              }
+              .record-item {
+                border: 1px solid var(--#{$prefix}header-border);
+                &.record-info {
+                  overflow: auto;
+                  .role-info {
+                    border: 1px solid var(--#{$prefix}header-border);
+                  }
+                  .record-field {
+                    border-bottom: 1px solid var(--#{$prefix}header-border);
+                    min-height: 66px;
+                    & > .display.record-field-container {
+                      display: flex;
+                    }
+                    .record-field-container {
+                      min-height: inherit;
+                    }
+
+                    .edit-field,
+                    .display-field {
+                      height: inherit;
+                      .left-content {
+                        align-self: baseline;
+                        .field {
+                          color: #808184;
+                          font-size: 12px;
+                        }
+                        .field-value {
+                          font-size: 14px;
+                          color: #231f20;
+                        }
+                      }
+                      .right-content {
+                        i {
+                          color: #adb5bd;
+                          font-size: 16px;
+                        }
+                      }
+                    }
+                    .display-field {
+                      width: 100%;
+
+                      .right-content {
+                        i {
+                          visibility: hidden;
+                        }
+                      }
+                    }
+                    .edit-field {
+                      .field {
+                        color: #808184;
+                        font-size: 12px;
+                      }
+                      .right-content {
+                        i {
+                          color: $green;
+                          padding: 0.25rem;
+                          &:hover {
+                            border-radius: 50%;
+                            background-color: #f3f3f3 !important;
+                          }
+                        }
+                      }
+                    }
+
+                    &:hover > .display.record-field-container {
+                      background-color: #f3f3f3 !important; //#f3f3f3ba
+                      .display-field {
+                        .right-content {
+                          i {
+                            visibility: visible;
+                          }
+                        }
+                      }
+                    }
+                  }
+                  .accordion-button {
+                    background: none;
+                    box-shadow: none;
+                    color: $blue-500;
+                  }
+                  .accordion-border-box .accordion-item {
+                    border: none;
+                  }
+                }
+              }
+            }
+            &.settings-list-page {
+              height: $settings-list-page-height;
+              border: 1px solid var(--#{$prefix}header-border);
+            }
+            .settings-record-page {
+              height: $settings-content-pane-wrapper-height;
+
+              .record-item {
+                height: $settings-record-page-record-item-record-info;
+                border: 1px solid var(--#{$prefix}header-border);
+                &.record-info {
+                  .record-field {
+                    border-bottom: 1px solid var(--#{$prefix}header-border);
+                    min-height: 66px;
+                    & > .display.record-field-container {
+                      display: flex;
+                    }
+                    .record-field-container {
+                      min-height: inherit;
+                    }
+
+                    .edit-field,
+                    .display-field {
+                      height: inherit;
+                      .left-content {
+                        align-self: baseline;
+                        .field {
+                          color: #808184;
+                          font-size: 12px;
+                        }
+                        .field-value {
+                          font-size: 14px;
+                          color: #231f20;
+                        }
+                      }
+                      .right-content {
+                        i {
+                          color: #adb5bd;
+                          font-size: 16px;
+                        }
+                      }
+                    }
+                    .display-field {
+                      width: 100%;
+
+                      .right-content {
+                        i {
+                          visibility: hidden;
+                        }
+                      }
+                    }
+                    .edit-field {
+                      .field {
+                        color: #808184;
+                        font-size: 12px;
+                      }
+                      .right-content {
+                        i {
+                          color: $green;
+                          padding: 0.25rem;
+                          &:hover {
+                            border-radius: 50%;
+                            background-color: #f3f3f3 !important;
+                          }
+                        }
+                      }
+                    }
+
+                    &:hover > .display.record-field-container {
+                      background-color: #f3f3f3 !important; //#f3f3f3ba
+                      .display-field {
+                        .right-content {
+                          i {
+                            visibility: visible;
+                          }
+                        }
+                      }
+                    }
+                  }
+                  .accordion-button {
+                    background: none;
+                    box-shadow: none;
+                    color: $blue-500;
+                  }
+                  .accordion-border-box .accordion-item {
+                    border: none;
+                  }
+                }
+                .entity-relations-tab-menu {
+                  border-bottom: 1px solid var(--#{$prefix}header-border);
+                  .relations-menu-item {
+                    .icon {
+                      i {
+                        font-size: 16px;
+                        line-height: 1;
+                        padding: 0.4rem;
+                        color: var(--#{$prefix}topnav-bg);
+                        border-radius: 50%;
+                        background: rgb(255, 151, 122);
+                      }
+                    }
+                    &:hover {
+                      color: var(--vz-topnav-item-active-color);
+                      background-color: #eff2f7;
+                    }
+                    &.nav-link {
+                      //font-size: 0.9375rem;
+                      //font-family: "hkgrotesk", sans-serif;
+                      //padding: 1.5rem 1rem;
+                      &.active {
+                        color: var(--#{$prefix}topnav-item-active-color);
+                        background-color: #eff2f7;
+                        border-bottom: 2px solid $primary !important;
+                      }
+                    }
+                  }
+                }
+                .entity-relations-sub-menu {
+                  border-bottom: 1px solid var(--#{$prefix}header-border);
+                  .nav-link {
+                    //font-size: 0.9375rem;
+                    //font-family: "hkgrotesk", sans-serif;
+                    //padding: 1.5rem 1rem;
+                    &.active {
+                      color: var(--#{$prefix}topnav-item-active-color);
+                      //color: $primary;
+                      border-bottom: 2px solid $primary !important;
+                    }
+                  }
+                }
+              }
+              .settings-record-page-header {
+                height: $settings-record-page-header;
+                border: 1px solid var(--#{$prefix}header-border);
+                .left-content {
+                  align-items: center;
+                  .icon {
+                    i {
+                      font-size: 16px;
+                      line-height: 1;
+                      padding: 0.4rem;
+                      color: var(--#{$prefix}topnav-bg);
+                      border-radius: 50%;
+                    }
+                  }
+                  .record-name {
+                    border: 1px solid var(--#{$prefix}header-border);
+                    border-radius: 5px;
+                  }
+                }
+                i {
+                  font-size: 1.2rem;
+                  line-height: 1;
+                }
+                .menu-btn {
+                  i {
+                    @extend .text-muted !optional;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

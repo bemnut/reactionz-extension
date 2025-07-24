@@ -1,0 +1,21 @@
+.entity-page {
+  background-color: var(--vz-header-bg);
+  .entity-content-pane {
+    .main-content,
+    .entity-pane-views-sidebar {
+      min-height: $entity-content-pane-height;
+      max-height: $entity-content-pane-height;
+      overflow: auto;
+    }
+    .entity-pane-views-sidebar {
+      .view-item {
+        padding: 0;
+        a {
+          padding: var(--vz-list-group-item-padding-y)
+            var(--vz-list-group-item-padding-x);
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+}

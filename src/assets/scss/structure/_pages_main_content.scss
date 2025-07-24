@@ -1,0 +1,41 @@
+.accounts {
+  .main-content {
+    @media (max-width: 1024.1px) {
+      // /$footer-height
+      padding: calc(#{$grid-gutter-width}) calc(#{$grid-gutter-width} * 0.5)
+        $footer-height calc(#{$grid-gutter-width} * 0.5);
+    }
+
+    padding: calc(#{$grid-gutter-width}) calc(#{$grid-gutter-width} * 0.5) 15px
+      calc(#{$grid-gutter-width} * 0.5);
+    background-color: var(--#{$prefix}header-bg);
+    border: 1px solid var(--vz-header-border);
+    width: 100%;
+    //@extend .m-3;
+    margin: 0.5rem;
+    @extend .mb-0 !optional;
+
+    // $header-height
+    // $sub-header-height
+    // $footer-height
+  }
+  min-height: inherit;
+  overflow-x: auto;
+  #accountsList .card-body .table-responsive {
+    max-height: $table-content-height;
+    overflow: auto;
+  }
+}
+.accounts-addmodal {
+  h2 {
+    button i {
+      font-size: 18px;
+      @extend .text-muted !optional;
+    }
+    &:hover {
+      button i {
+        color: $primary !important;
+      }
+    }
+  }
+}
