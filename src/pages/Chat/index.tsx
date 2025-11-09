@@ -31,6 +31,7 @@ import {
     fireberryContactsSearchState,
     fireberryContactsSearch as onFireberryContactsSearch,
     changeExtensionWindowStatus as changeExtensionWindowStatusState,
+    getNotifications as onGetNotificationsApi,
 } from "../../slices/thunks";
 
 import reactionzLogo from "../../assets/images/reactions_logo.jpg";
@@ -78,6 +79,8 @@ const Chat = () => {
         fireberryContactsSearch: state.Contact.fireberryContactsSearch,
         extensionWindowStatus: state.Layout.extensionWindowStatus,
         showOnFireberryStatus: state.Layout.showOnFireberryStatus,
+        isNotificationUpdated: state.Notification.isNotificationUpdated,
+        notification: state.Notification.notification,
     }));
     // Inside your component
     const {
@@ -87,6 +90,8 @@ const Chat = () => {
         fireberryContactsSearch,
         extensionWindowStatus,
         showOnFireberryStatus,
+        isNotificationUpdated,
+        notification,
     } = useSelector(chatProperties);
 
     const userChatShow = useRef<HTMLInputElement>();
@@ -102,7 +107,7 @@ const Chat = () => {
     //     useState("minimize-window");
     const [conversationsListType, setConversationsListType] = useState("all");
     const [conversationsListAssignedTo, setConversationsListAssignedTo] =
-        useState("mine");
+        useState("all");
     const [filter, setFilter] = useState<any>(null);
     const [contactsCount, setContactsCount] = useState<any>(0);
     const [conversationsCount, setConversatiosCount] = useState<any>(0);
@@ -134,10 +139,10 @@ const Chat = () => {
         setTimeout(() => {
             chrome.tabs.query({ currentWindow: true }, (tabs) => {
                 const tab = tabs[0] || null;
-                console.log("tabs: ", tabs);
+                //console.log("tabs: ", tabs);
                 tabs.forEach(function (tab) {
                     if (tab?.url && tab.url?.includes("app.fireberry.com")) {
-                        console.log("tab: ", tab);
+                        //console.log("tab: ", tab);
                         const uuid = getFireberryUUIDFromURL(tab?.url);
                         //tab.url?.split("/")?.pop() || tab.url?.split("/")?.pop();
                         isValidUUID(uuid) && setuuid(uuid);
@@ -147,10 +152,19 @@ const Chat = () => {
             });
         }, 1000);
     }, []);
+
+    // get notifications
+    useEffect(() => {
+        dispatch(onGetNotificationsApi());
+    }, []);
+
+    useEffect(() => {
+        isNotificationUpdated && dispatch(onGetNotificationsApi());
+    }, [isNotificationUpdated]);
     //
     useEffect(() => {
         // /uuid && dispatch();
-        console.log("uuid: ", uuid);
+        //console.log("uuid: ", uuid);
         if (uuid) {
             //dispatch(fireberryContactsSearchState(null));
             let val = uuid;
@@ -163,16 +177,16 @@ const Chat = () => {
     }, [uuid]);
 
     useEffect(() => {
-        console.log("fireberryContactsSearch: ", fireberryContactsSearch);
+        //console.log("fireberryContactsSearch: ", fireberryContactsSearch);
         if (fireberryContactsSearch?.data[0]) {
             const contact = fireberryContactsSearch?.data[0];
             contact && setSelectedContact(setContact(contact, countries));
             contact && userChatOpen(contact);
-            console.log("showOnFireberryStatus: ", showOnFireberryStatus);
-            console.log(
-                "contact && showOnFireberryStatus == 'show': ",
-                contact && showOnFireberryStatus == "show"
-            );
+            // console.log("showOnFireberryStatus: ", showOnFireberryStatus);
+            // console.log(
+            //     "contact && showOnFireberryStatus == 'show': ",
+            //     contact && showOnFireberryStatus == "show"
+            // );
 
             if (contact && showOnFireberryStatus == "show") {
                 chrome.runtime.sendMessage({
@@ -370,6 +384,8 @@ const Chat = () => {
             //checkIfContactHasUnreadMessages(conversations, contact.id) &&
             dispatch(onMarkConversationAsReadApi(contact.id));
             //
+            // Reload conversations
+            handleUpdateConversationsAndContactsOnUserChatPaneLoad();
             userChatShow.current.classList.add("user-chat-show");
             addContactShow.current.classList.remove("add-contact-form-show");
             settingsShow.current.classList.remove("settings-modal-show");
@@ -562,9 +578,9 @@ const Chat = () => {
         return false;
     };
 
-    useEffect(() => {
-        console.log("selectedContact: ", selectedContact);
-    }, [selectedContact]);
+    // useEffect(() => {
+    //     console.log("selectedContact: ", selectedContact);
+    // }, [selectedContact]);
 
     document.title = "Reactionz | Chrome Extension";
 

@@ -26,3 +26,7 @@ export * from "./lifeCycle/thunk";
 
 // Files
 export * from "./file/thunk";
+
+
+// Notifications
+export * from "./notification/thunk";

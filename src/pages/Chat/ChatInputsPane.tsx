@@ -50,6 +50,7 @@ import {
     getPageLinksPayload,
     contactFields,
     getFileType,
+    replaceLast,
 } from "./common_functions";
 let _ = require("lodash-contrib");
 import { useTranslation } from "react-i18next";
@@ -283,13 +284,17 @@ const ChatInputsPane = ({
         }
     };
 
-    /** trigger send message on "ENTER" key press */
+    /** trigger send message on "ENTER" key press or add new line on "ENTER" AND SHIFT*/
     const onKeyPress = (e) => {
         const { key, value } = e;
         if (key === "Enter") {
-            e.preventDefault();
-            //setTextMessage(value);
-            handleSendTextMessage();
+            if (!e.shiftKey) {
+                e.preventDefault();
+                //setTextMessage(value);
+                handleSendTextMessage();
+            } else {
+                setTextMessage(textMessage);
+            }
         }
     };
 
@@ -755,8 +760,8 @@ const ChatInputsPane = ({
                                                 </div> */}
 
                                     {!recording && !audioBlob ? (
-                                        <input
-                                            type="text"
+                                        <Input
+                                            type="textarea"
                                             value={textMessage}
                                             onKeyDown={onKeyPress}
                                             onChange={(e) =>
@@ -769,6 +774,9 @@ const ChatInputsPane = ({
                                                     ? t("Add your comment...")
                                                     : t("Type your message...")
                                             }
+                                            bsSize="sm"
+                                            rows="2"
+                                            style={{ height: "38px" }}
                                         />
                                     ) : (
                                         <ChatAudioPane
@@ -814,6 +822,7 @@ const ChatInputsPane = ({
                                     {isSnippet && (
                                         <ChatInputsSnippetsPane
                                             isSnippet={isSnippet}
+                                            textMessage={textMessage}
                                             setTextMessage={setTextMessage}
                                             handleGetPaginatedSnippets={
                                                 handleGetPaginatedSnippets

@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Reactionz",
     "description": "Reactionz Chat Plugin",
-    "version": "2.34",
+    "version": "2.39",
     "action": {
         "default_icon": {
             "16": "images/reactionz_16.png",

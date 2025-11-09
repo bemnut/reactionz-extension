@@ -4287,3 +4287,35 @@ export const handleMessageTimeMeta = (timeStamp, language): any => {
         return txt;
     }
 };
+
+export const NormalizeTextTitle = (text) => {
+    text = text.replaceAll("_", " ");
+    return capitalizeWords(text);
+};
+
+export const capitalizeWords = (sentence) => {
+    if (typeof sentence !== "string" || sentence.length === 0) {
+        return ""; // Handle empty or non-string inputs
+    }
+
+    return sentence
+        .split(" ") // Split the sentence into an array of words
+        .map((word) => {
+            if (word.length === 0) {
+                return ""; // Handle empty strings within the split array
+            }
+            return word.charAt(0).toUpperCase() + word.slice(1); // Capitalize first letter
+        })
+        .join(" "); // Join the capitalized words back into a string
+};
+
+
+export const replaceLast = (str, searchValue, replacementValue) =>{
+  const lastIndex = str.lastIndexOf(searchValue);
+
+  if (lastIndex === -1) {
+    return str; // Substring not found
+  }
+
+  return str.slice(0, lastIndex) + replacementValue + str.slice(lastIndex + searchValue.length);
+}

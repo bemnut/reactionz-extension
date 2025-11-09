@@ -91,11 +91,9 @@ import {
     convertWebmToMp3,
 } from "./common_functions";
 
-
 import useAudioRecorder from "react-audio-recorder-hook";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
-
 
 import ChatTopbar from "./ChatTopbar";
 import ChatMessagePane from "./ChatMessagesPane";
@@ -104,6 +102,7 @@ import ChatAudioPane from "./ChatAudioPane";
 //
 const ChatInputsSnippetsPane = ({
     isSnippet,
+    textMessage,
     setTextMessage,
     handleGetPaginatedSnippets,
 }) => {
@@ -139,27 +138,28 @@ const ChatInputsSnippetsPane = ({
         }
     }, [searchSnippet]);
 
+    useEffect(() => {
+        setSearchSnippet(textMessage.replace("/", ""));
+    }, [textMessage]);
+
     return (
         <React.Fragment>
             <div className="snippets ">
                 {messageSnippets?.data ? (
                     <>
-                        <div className="search-box">
+                        {/* <div className="search-box">
                             <Input
                                 onChange={(e) => {
                                     setSearchSnippet(e.target.value);
                                 }}
                                 value={searchSnippet ? searchSnippet : ""}
-                                // onKeyUp={
-                                //     searchSnippets
-                                // }
                                 type="text"
                                 className="form-control bg-light border-light"
                                 placeholder={t("Search here...")}
                                 id="searchSnippets"
                             />
                             <i className="ri-search-2-line search-icon"></i>
-                        </div>
+                        </div> */}
                         <div className="snippet-content scrollable">
                             {messageSnippets?.links?.next && (
                                 <>

@@ -91,11 +91,9 @@ import {
     convertWebmToMp3,
 } from "./common_functions";
 
-
 import useAudioRecorder from "react-audio-recorder-hook";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
-
 
 //
 import { fileTypeFromBlob, fileTypeFromFile } from "file-type";
@@ -660,6 +658,7 @@ const ChatInputsPaneMINE = ({
                                     {isSnippet && (
                                         <ChatInputsSnippetsPane
                                             isSnippet={isSnippet}
+                                            textMessage={textMessage}
                                             setTextMessage={setTextMessage}
                                             handleGetPaginatedSnippets={
                                                 handleGetPaginatedSnippets

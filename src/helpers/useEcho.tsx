@@ -41,15 +41,17 @@ const useEcho = () => {
                         });
                     },
                   };
-                }, */
+                }, 
+                */
                 wsHost: reverbConf.HOST,
                 wsPort: reverbConf.PORT ?? 80,
                 wssPort: reverbConf.PORT ?? 443,
                 forceTLS: (reverbConf.SCHEME ?? "https") === "https",
                 enabledTransports: ["ws", "wss"],
                 disableStats: true,
+                //cluster: {},
                 cluster: "mt1",
-                authEndpoint: `https://${reverbConf.HOST}/api/broadcasting/auth`,
+                authEndpoint: `https://${reverbConf.AUTH_ENDPOINT}/api/broadcasting/auth`,
                 // userAuthentication: {
                 //     endpoint: "/api/broadcasting/auth",
                 //     transport: "ajax",
@@ -84,6 +86,7 @@ const useEcho = () => {
                 }
             };
         }
+        //console.log("auth_user inside echo : ", auth_user);
     }, [user]);
 
     // const getLoggedinUser = () => {

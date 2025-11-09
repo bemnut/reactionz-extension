@@ -121,11 +121,21 @@
     "Recent messages": "הודעות אחרונות",
     "days": "ימים",
     "minutes": "פּרוֹטוֹקוֹל",
-    "minute" : "minute",
+    "minute": "minute",
     "hours": "שעות",
     "hour": "שָׁעָה",
     "months": "חודשים",
     "month": "חוֹדֶשׁ",
     "ago": "ימים",
-    "a few seconds ago": "לפני מספר שניות"
+    "a few seconds ago": "לפני מספר שניות",
+    "Mark as Read": "סמן כנקרא",
+    "Mark as Unread": "סמן כלא נקרא",
+    "Assigned Contacts": "אנשי קשר שהוקצו",
+    "Unassigned Contacts": "אנשי קשר שלא הוקצו",
+    "Mentions": "אזכורים",
+    "Save": "לְהַצִיל",
+    "Notifications": "התראות",
+    "Push Notifications": "הודעות דחיפה",
+    "Email Notifications": "הודעות אימייל",
+    "SMS Notifications": "הודעות SMS"
 }

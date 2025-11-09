@@ -238,9 +238,9 @@ const AddContact = ({
         if (isEmpty(firstName)) {
             setFirstNameValidation(true);
         }
-        if (isEmpty(lastName)) {
-            setLastNameValidation(true);
-        }
+        // if (isEmpty(lastName)) {
+        //     setLastNameValidation(true);
+        // }
 
         if (
             !isEmpty(phone) &&

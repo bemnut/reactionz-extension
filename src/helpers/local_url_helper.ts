@@ -154,3 +154,14 @@ export const GET_FILE_UPLOAD_STATUS = "/file/status";
  *  SNIPPETS END POINT
  */
 export const MESSAGE_SNIPPETS_GET = "/snippets";
+
+
+
+
+
+
+/**
+ *  SNIPPETS END POINT
+ */
+export const NOTIFICATIONS_GET = "/settings/notification";
+export const NOTIFICATION_UPDATE = "/settings/notification";

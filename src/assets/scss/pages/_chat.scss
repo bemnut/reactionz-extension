@@ -445,8 +445,10 @@ html {
         //margin: 0 16px 0 0 /*rtl:0 0 0 16px*/;
 
         img {
-            width: 28px;
-            height: 28px;
+            max-width: 28px;
+            max-height: 28px;
+            min-width: 28px;
+            min-height: 28px;
             border-radius: 50%;
         }
     }
@@ -1168,6 +1170,15 @@ html {
             border-radius: var(--vz-border-radius);
             border-bottom-left-radius: 0;
             border-top-left-radius: 0;
+        }
+    }
+    .notifications.rtl {
+        .form-check .form-check-input {
+            float: right;
+            margin-left: 0.5em;
+        }
+        .form-check {
+            text-align: right;
         }
     }
 }

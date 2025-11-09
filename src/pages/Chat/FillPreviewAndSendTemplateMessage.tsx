@@ -100,6 +100,7 @@ const FillPreviewAndSendTemplateMessage = ({
                 },
             };
             //console.log("payload: ", payload);
+
             dispatch(onSendTemplateMessage(payload));
 
             //cleanup data and close modal
@@ -215,44 +216,139 @@ const FillPreviewAndSendTemplateMessage = ({
                 temp_component["parameters"]?.length > 0 &&
                     components.push(temp_component);
             }
-            if (component.type?.toUpperCase() == "BUTTONS") {
-                //
-                //console.log("component: ", component);
-                let temp_component = {};
-                temp_component["type"] = "BUTTONS";
-                previewButtons &&
-                    (temp_component["parameters"] = previewButtons);
-                //console.log("previewButtons: ", previewButtons);
-
-                previewButtons?.map((btn, idx) => {
-                    let tmp = {};
-                    if (btn.type?.toUpperCase() == "QUICK_REPLY") {
-                        tmp = {
-                            type: "BUTTON",
-                            sub_type: btn.type?.toLowerCase(),
-                            index: idx, // Index of the second button
-                            parameters: [
-                                {
-                                    type: "payload",
-                                    payload: btn.text, // Optional: Custom payload for the button
-                                },
-                                {
-                                    type: "text",
-                                    text: "Stop All Messages", // New text for the second button
-                                },
-                            ],
-                        };
-                    } else if (btn.type?.toUpperCase() == "URL") {
-                    }
-                    components.push(tmp);
-                });
-
-                // previewButtons &&
-                //     temp_component["parameters"]?.length > 0 &&
-                //     components.push(temp_component);
-            }
+            // if (component.type?.toUpperCase() == "BUTTONS") {
+            //     let temp_component = {};
+            //     temp_component["type"] = "BUTTONS";
+            //     previewButtons &&
+            //         (temp_component["parameters"] = previewButtons);
+            //     previewButtons?.map((btn, idx) => {
+            //         let tmp = {};
+            //         if (btn.type?.toUpperCase() == "QUICK_REPLY") {
+            //             tmp = {
+            //                 type: "BUTTON",
+            //                 sub_type: btn.type?.toLowerCase(),
+            //                 index: idx, // Index of the second button
+            //                 parameters: [
+            //                     {
+            //                         type: "payload",
+            //                         payload: btn.text, // Optional: Custom payload for the button
+            //                     },
+            //                     {
+            //                         type: "text",
+            //                         text: "Stop All Messages", // New text for the second button
+            //                     },
+            //                 ],
+            //             };
+            //         } else if (btn.type?.toUpperCase() == "URL") {
+            //         }
+            //         components.push(tmp);
+            //     });
+            // }
         });
         return components;
+    };
+
+    const assembleComponentsAndVariables = () => {
+        var header_text = "";
+        var body_text = "";
+        var footer_text = "";
+        var header_audio = "";
+        var header_document = "";
+        var header_image = "";
+        var header_location = "";
+        var header_video = "";
+        var buttons = [];
+
+        templateComponents?.map((component) => {
+            if (
+                component.type?.toUpperCase() == "HEADER" &&
+                component.format?.toUpperCase() == "TEXT"
+            ) {
+                let text = component.text;
+                component.example?.header_text?.map((value, key) => {
+                    let temp_val = document.querySelector<HTMLInputElement>(
+                        `input[name="header-variable-${key}"]`
+                    )
+                        ? document.querySelector<HTMLInputElement>(
+                              `input[name="header-variable-${key}"]`
+                          ).value
+                        : null;
+                    if (temp_val && temp_val != "") {
+                        text = text.replace(`{{${key + 1}}}`, temp_val);
+                    }
+                });
+                header_text = text;
+            }
+            if (component.type?.toUpperCase() == "BODY") {
+                let text = component.text;
+                (
+                    component.example?.body_text[0] ||
+                    component.example?.body_text
+                )?.map((value, key) => {
+                    let temp_val = document.querySelector<HTMLInputElement>(
+                        `input[name="body-variable-${key}"]`
+                    )
+                        ? document.querySelector<HTMLInputElement>(
+                              `input[name="body-variable-${key}"]`
+                          ).value
+                        : null;
+                    if (temp_val && temp_val != "") {
+                        text = text.replace(`{{${key + 1}}}`, temp_val);
+                    }
+                });
+                body_text = text;
+            }
+            if (component.type?.toUpperCase() == "FOOTER") {
+                let text = component.text;
+                component.example?.footer_text?.map((value, key) => {
+                    let temp_val = document.querySelector<HTMLInputElement>(
+                        `input[name="footer-variable-${key}"]`
+                    )
+                        ? document.querySelector<HTMLInputElement>(
+                              `input[name="footer-variable-${key}"]`
+                          ).value
+                        : null;
+                    if (temp_val && temp_val != "") {
+                        text = text.replace(`{{${key + 1}}}`, temp_val);
+                    }
+                });
+                footer_text = text;
+            }
+
+            if (component.type?.toUpperCase() == "BUTTONS") {
+                let _buttons = component.buttons;
+                let btns = [];
+                _buttons?.map((button, key) => {
+                    let tmp_btn = null;
+
+                    if (button.type.toUpperCase() == "URL") {
+                        tmp_btn = {
+                            type: button.type,
+                            url: button.url,
+                        };
+                    } else {
+                        tmp_btn = {
+                            type: button.type,
+                            text: button.text,
+                        };
+                    }
+                    btns.push(tmp_btn);
+                });
+                //console.log("btn: ", btns);
+                btns && (buttons = btns);
+            }
+        });
+        return {
+            header_text: header_text,
+            body_text: body_text,
+            footer_text: footer_text,
+            header_audio: header_audio,
+            header_document: header_document,
+            header_image: header_image,
+            header_location: header_location,
+            header_video: header_video,
+            buttons: buttons,
+        };
     };
 
     // handle update preview
@@ -596,7 +692,7 @@ const FillPreviewAndSendTemplateMessage = ({
                                     )
                             )}
 
-                            {templateComponents?.map(
+                            {/* {templateComponents?.map(
                                 (component) =>
                                     component.type?.toUpperCase() ==
                                         "BUTTONS" && (
@@ -663,7 +759,7 @@ const FillPreviewAndSendTemplateMessage = ({
                                             )}
                                         </div>
                                     )
-                            )}
+                            )} */}
 
                             {templateComponents?.map(
                                 (component) =>

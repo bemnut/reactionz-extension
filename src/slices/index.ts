@@ -13,6 +13,7 @@ import UsersReducer from "./users/reducer";
 import TagReducer from "./tag/reducer";
 import LifeCycleReducer from "./lifeCycle/reducer";
 import FileReducer from "./file/reducer";
+import NotificationReducer from "./notification/reducer";
 
 //Ecommerce
 
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     Tag: TagReducer,
     LifeCycle: LifeCycleReducer,
     File: FileReducer,
+    Notification: NotificationReducer,
 });
 
 export default rootReducer;

@@ -4,6 +4,7 @@ import {
     updateConversationStatus,
     getContactConversations,
     markConversationAsRead,
+    markConversationAsUnRead,
     sendTextMessage,
     sendAttachment,
     sendTemplateMessage,
@@ -111,6 +112,24 @@ const chatSlice = createSlice({
         );
         builder.addCase(
             markConversationAsRead.rejected,
+            (state, action: any) => {
+                state.error = action.payload?.message || null;
+            }
+        );
+        
+        // MARK CONVERSATION AS UNREAD
+        builder.addCase(
+            markConversationAsUnRead.fulfilled,
+            (state, action: any) => {
+                if (action.payload.status == "success") {
+                    //state.messages = action.payload.data;
+                } else {
+                    state.error = action.payload?.message;
+                }
+            }
+        );
+        builder.addCase(
+            markConversationAsUnRead.rejected,
             (state, action: any) => {
                 state.error = action.payload?.message || null;
             }

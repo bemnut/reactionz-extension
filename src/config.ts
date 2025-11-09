@@ -24,10 +24,11 @@ export const socketConf = {
     withCredentials: true,
 };
 export const reverbConf = {
-    APP_ID: "820995",
-    APP_KEY: "gux1ou1p1eaklnveazcc",
-    APP_SECRET: "xesmwhmqfqu7em1jrnwh",
-    HOST: "dev-api.reactionz.io",
+    APP_ID: "131235",
+    APP_KEY: "zw9xcryc3ppn3rqqmk1p",
+    APP_SECRET: "4v2vzm8aihgb4htjh8rg",
+    HOST: "ws.api.reactionz.io",
+    AUTH_ENDPOINT: "api.reactionz.io",
     PORT: 443,
     SCHEME: "https",
 };
@@ -38,7 +39,7 @@ export const authApi = {
     API_URL: "https://api-node.themesbrand.website",
 };
 export const reactionzApi = {
-    API_URL: "https://dev-api.reactionz.io/api/v1",
+    API_URL: "https://api.reactionz.io/api/v1",
     ACCESS_TOKEN: "",
 };
 export const localApi = {

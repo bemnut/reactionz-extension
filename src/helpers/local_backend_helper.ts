@@ -139,6 +139,8 @@ export const getContactConversations = (payload) =>
 
 export const markConversationAsRead = (payload) =>
     api.create(`${url.CONVERSATIONS_MARK_AS_READ}/${payload}/read`);
+export const markConversationAsUnRead = (payload) =>
+    api.create(`${url.CONVERSATIONS_MARK_AS_READ}/${payload}/unread`);
 
 export const sendTextMessage = (payload) =>
     api.create(
@@ -175,11 +177,19 @@ export const getCampaigns = (payload) =>
  *  File helpers
  */
 export const uploadFile = (payload) => api.create(url.UPLOAD_FILE, payload);
-export const getUploadStatus = (uuid) => api.create(`${url.GET_FILE_UPLOAD_STATUS}/${uuid}`);
-
+export const getUploadStatus = (uuid) =>
+    api.create(`${url.GET_FILE_UPLOAD_STATUS}/${uuid}`);
 
 /**
  *  Snippets
  */
 export const getMessageSnippets = (payload) =>
     api.get(url.MESSAGE_SNIPPETS_GET, payload);
+
+/**
+ *  Notification helpers
+ */
+
+export const getNotifications = () => api.get(url.NOTIFICATIONS_GET);
+export const updateNotification = (payload) =>
+    api.update(`${url.NOTIFICATION_UPDATE}`, payload);

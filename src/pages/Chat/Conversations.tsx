@@ -21,6 +21,9 @@ import { useSelector, useDispatch } from "react-redux";
 import {
     getConversations as onGetConversations,
     updateConversationStatus as onUpdateConversationStatus,
+    markConversationAsRead as onMarkConversationAsReadApi,
+    markConversationAsUnRead as onMarkConversationAsUnReadApi,
+    changeIsConversationStatusUpdated as onChangeIsConversationStatusUpdated,
 } from "../../slices/thunks";
 
 import { createSelector } from "reselect";
@@ -116,6 +119,7 @@ const Conversations = ({
                     dispatch(onGetConversations({}));
                 }
             }
+            dispatch(onChangeIsConversationStatusUpdated(false));
         }
     }, [isConversationUpdated]);
 
@@ -136,6 +140,20 @@ const Conversations = ({
             status: { status: status },
         };
         dispatch(onUpdateConversationStatus(payload));
+    };
+    const handleMarkAsRead = (conversation) => {
+        if (conversation?.contact.id) {
+            dispatch(onMarkConversationAsReadApi(conversation?.contact.id));
+            dispatch(onChangeIsConversationStatusUpdated(true));
+        }
+    };
+    const handleMarkAsUnRead = (conversation) => {
+        //connversation?.id && dispatch(onUpdateConversationStatus(connversation?.id));
+
+        if (conversation?.contact.id) {
+            dispatch(onMarkConversationAsUnReadApi(conversation?.contact.id));
+            dispatch(onChangeIsConversationStatusUpdated(true));
+        }
     };
 
     const handleClearSearchInput = () => {
@@ -456,18 +474,13 @@ const Conversations = ({
                                             <p className="text-muted text-truncate contact-list-last-message mb-0">
                                                 {conversation.message?.message
                                                     ?.type == "text"
-                                                    ? isJsonString(
-                                                          conversation.message
-                                                              ?.message?.text
-                                                      )
-                                                        ? JSON.parse(
-                                                              conversation
-                                                                  .message
-                                                                  ?.message
-                                                                  ?.text
-                                                          )?.emoji
-                                                        : conversation.message
-                                                              ?.message?.text
+                                                    ? conversation.message
+                                                          ?.message?.text
+                                                    : conversation.message
+                                                          ?.message?.type ==
+                                                      "reaction"
+                                                    ? conversation.message
+                                                          ?.message?.data?.emoji
                                                     : conversation.message
                                                           ?.message?.type ==
                                                       "attachment"
@@ -520,6 +533,33 @@ const Conversations = ({
 
                                                             {t(
                                                                 "Open Conversation"
+                                                            )}
+                                                        </DropdownItem>
+                                                    )}
+                                                    {conversation.unreadCount >
+                                                    0 ? (
+                                                        <DropdownItem
+                                                            onClick={() =>
+                                                                handleMarkAsRead(
+                                                                    conversation
+                                                                )
+                                                            }
+                                                        >
+                                                            <i className="ri-mail-line text-muted me-2 align-bottom" />
+                                                            {t("Mark as Read")}
+                                                        </DropdownItem>
+                                                    ) : (
+                                                        <DropdownItem
+                                                            onClick={() =>
+                                                                handleMarkAsUnRead(
+                                                                    conversation
+                                                                )
+                                                            }
+                                                        >
+                                                            <i className="ri-mail-unread-line text-muted me-2 align-bottom" />
+
+                                                            {t(
+                                                                "Mark as Unread"
                                                             )}
                                                         </DropdownItem>
                                                     )}

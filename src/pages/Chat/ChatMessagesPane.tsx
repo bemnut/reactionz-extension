@@ -133,60 +133,52 @@ const ChatMessagePane = ({
     const [messageBox, setMessageBox] = useState(null);
     const [previous, setPrevious] = useState(false);
 
-    const a = {
-        emoji: "\ud83d\udc4d",
-        message_id:
-            "wamid.HBgMMjUxOTExMDcyNTYzFQIAERgSOEQxNzNGQUE1RjM2QTdFQjNBAA==",
-    };
     // sort the messages by date
     useEffect(() => {
         if (!isEmpty(messages?.data)) {
-            const emoj_msg = messages?.data?.filter(
-                (msg) =>
-                    msg?.message?.type == "text" &&
-                    msg?.message?.text &&
-                    isJsonString(msg?.message?.text) &&
-                    JSON.parse(msg?.message?.text)?.emoji
-            );
+            // const emoj_msg = messages?.data?.filter(
+            //     (msg) =>
+            //         msg?.message?.type == "reaction" &&
+            //         msg?.message?.data?.emoji
+            // );
 
-            const messages_list = messages?.data?.filter(
-                (msg) =>
-                    !(
-                        isJsonString(msg?.message?.text) &&
-                        JSON.parse(msg?.message?.text)?.emoji
-                    )
-            );
+            // const messages_list = messages?.data?.filter(
+            //     (msg) => msg?.message?.type != "reaction"
+            // );
 
-            let new_messages_list = [];
-            messages_list?.map((msg) => {
-                let new_msg = {};
-                let found = false;
-                emoj_msg?.map((emo_msg) => {
-                    const em = JSON.parse(emo_msg?.message?.text);
+            // let new_messages_list = [];
+            // messages_list?.map((msg) => {
+            //     let new_msg = {};
+            //     let found = false;
+            //     emoj_msg?.map((emo_msg) => {
+            //         //const em = JSON.parse(emo_msg?.message?.text);
 
-                    if (em && msg.fb_message_id == em.message_id) {
-                        found = true;
-                        new_msg = {
-                            id: msg.id,
-                            contact_id: msg.contact_id,
-                            channel_id: msg.channel_id,
-                            fb_message_id: msg.fb_message_id,
-                            message: msg.message,
-                            reply_to_message: msg.reply_to_message,
-                            sender: msg.sender,
-                            status: msg.status,
-                            traffic: msg.traffic,
-                            reactions: em.emoji,
-                        };
-                    }
-                });
-                found
-                    ? new_messages_list.push(new_msg)
-                    : new_messages_list.push(msg);
-                //new_messages_list.push(new_msg);
-            });
+            //         if (
+            //             msg.fb_message_id == emo_msg?.message?.data?.message_id
+            //         ) {
+            //             found = true;
+            //             new_msg = {
+            //                 id: msg.id,
+            //                 contact_id: msg.contact_id,
+            //                 channel_id: msg.channel_id,
+            //                 fb_message_id: msg.fb_message_id,
+            //                 message: msg.message,
+            //                 reply_to_message: msg.reply_to_message,
+            //                 sender: msg.sender,
+            //                 status: msg.status,
+            //                 traffic: msg.traffic,
+            //                 reactions: emo_msg?.message?.data?.emoji,
+            //             };
+            //         }
+            //     });
+            //     found
+            //         ? new_messages_list.push(new_msg)
+            //         : new_messages_list.push(msg);
+            //     //new_messages_list.push(new_msg);
+            // });
 
-            setSortedMessages(sortBy(new_messages_list, "status.timestamp"));
+            //setSortedMessages(sortBy(new_messages_list, "status.timestamp"));
+            setSortedMessages(sortBy(messages?.data, "status.timestamp"));
         } else {
             setSortedMessages([]);
         }
@@ -279,9 +271,30 @@ const ChatMessagePane = ({
     }, [zoomedImage]);
 
     // useEffect(() => {
-    //     console.log("previous: ", previous);
-    //     previous && setPrevious(false);
-    // }, [previous]);
+    //     console.log(
+    //         "isjson??? : ",
+    //         isJsonString({
+    //             error: "Unsupported message type Type = unsupported",
+    //             raw_data: {
+    //                 from: "972586244119",
+    //                 id: "wamid.HBgMOTcyNTg2MjQ0MTE5FQIAEhgSQjk5MTE2QTk0N0EwQ0Y2QjNGAA==",
+    //                 timestamp: "1757572069",
+    //                 errors: [
+    //                     {
+    //                         code: 131051,
+    //                         title: "Message type unknown",
+    //                         message: "Message type unknown",
+    //                         error_data: {
+    //                             details:
+    //                                 "Message type is currently not supported.",
+    //                         },
+    //                     },
+    //                 ],
+    //                 type: "unsupported",
+    //             },
+    //         })
+    //     );
+    // }, []);
 
     return (
         <React.Fragment>
@@ -456,6 +469,8 @@ const ChatMessagePane = ({
                                                                                                 "60px",
                                                                                             overflow:
                                                                                                 "hidden",
+                                                                                            whiteSpace:
+                                                                                                "pre-wrap",
                                                                                         }}
                                                                                     >
                                                                                         {message
@@ -477,7 +492,13 @@ const ChatMessagePane = ({
                                                                             )}
                                                                         </div>
                                                                     )}
-                                                                    <p className="mb-0 ctext-content px-3 py-2">
+                                                                    <p
+                                                                        className="mb-0 ctext-content px-3 py-2"
+                                                                        style={{
+                                                                            whiteSpace:
+                                                                                "pre-wrap",
+                                                                        }}
+                                                                    >
                                                                         <img
                                                                             onClick={() => {
                                                                                 setZoomedImage(
@@ -521,9 +542,17 @@ const ChatMessagePane = ({
                                                                     </p>
                                                                     {message?.reactions && (
                                                                         <div className="message-reaction">
-                                                                            {
-                                                                                message?.reactions
-                                                                            }
+                                                                            {message?.reactions?.map(
+                                                                                (
+                                                                                    reaction
+                                                                                ) => (
+                                                                                    <span>
+                                                                                        {
+                                                                                            reaction?.emoji
+                                                                                        }
+                                                                                    </span>
+                                                                                )
+                                                                            )}
                                                                         </div>
                                                                     )}
                                                                 </div>
@@ -561,6 +590,8 @@ const ChatMessagePane = ({
                                                                                                 "60px",
                                                                                             overflow:
                                                                                                 "hidden",
+                                                                                            whiteSpace:
+                                                                                                "pre-wrap",
                                                                                         }}
                                                                                     >
                                                                                         {message
@@ -624,9 +655,17 @@ const ChatMessagePane = ({
                                                                     </p>
                                                                     {message?.reactions && (
                                                                         <div className="message-reaction">
-                                                                            {
-                                                                                message?.reactions
-                                                                            }
+                                                                            {message?.reactions?.map(
+                                                                                (
+                                                                                    reaction
+                                                                                ) => (
+                                                                                    <span>
+                                                                                        {
+                                                                                            reaction?.emoji
+                                                                                        }
+                                                                                    </span>
+                                                                                )
+                                                                            )}
                                                                         </div>
                                                                     )}
                                                                 </div>
@@ -664,6 +703,8 @@ const ChatMessagePane = ({
                                                                                                 "60px",
                                                                                             overflow:
                                                                                                 "hidden",
+                                                                                            whiteSpace:
+                                                                                                "pre-wrap",
                                                                                         }}
                                                                                     >
                                                                                         {message
@@ -729,9 +770,17 @@ const ChatMessagePane = ({
                                                                     </p>
                                                                     {message?.reactions && (
                                                                         <div className="message-reaction">
-                                                                            {
-                                                                                message?.reactions
-                                                                            }
+                                                                            {message?.reactions?.map(
+                                                                                (
+                                                                                    reaction
+                                                                                ) => (
+                                                                                    <span>
+                                                                                        {
+                                                                                            reaction?.emoji
+                                                                                        }
+                                                                                    </span>
+                                                                                )
+                                                                            )}
                                                                         </div>
                                                                     )}
                                                                 </div>
@@ -793,6 +842,8 @@ const ChatMessagePane = ({
                                                                                                 "60px",
                                                                                             overflow:
                                                                                                 "hidden",
+                                                                                            whiteSpace:
+                                                                                                "pre-wrap",
                                                                                         }}
                                                                                     >
                                                                                         {message
@@ -814,7 +865,13 @@ const ChatMessagePane = ({
                                                                             )}
                                                                         </div>
                                                                     )}
-                                                                    <p className="mb-0 ctext-content px-3 py-2">
+                                                                    <p
+                                                                        className="mb-0 ctext-content px-3 py-2"
+                                                                        style={{
+                                                                            whiteSpace:
+                                                                                "pre-wrap",
+                                                                        }}
+                                                                    >
                                                                         {/* <DocViewer
                                                                                                 pluginRenderers={
                                                                                                     DocViewerRenderers
@@ -910,9 +967,17 @@ const ChatMessagePane = ({
                                                                     </p>
                                                                     {message?.reactions && (
                                                                         <div className="message-reaction">
-                                                                            {
-                                                                                message?.reactions
-                                                                            }
+                                                                            {message?.reactions?.map(
+                                                                                (
+                                                                                    reaction
+                                                                                ) => (
+                                                                                    <span>
+                                                                                        {
+                                                                                            reaction?.emoji
+                                                                                        }
+                                                                                    </span>
+                                                                                )
+                                                                            )}
                                                                         </div>
                                                                     )}
                                                                 </div>
@@ -926,7 +991,13 @@ const ChatMessagePane = ({
                                                             {message.message
                                                                 .text && (
                                                                 <>
-                                                                    <p className="mb-0 ctext-content px-3 py-2">
+                                                                    <p
+                                                                        className="mb-0 ctext-content px-3 py-2"
+                                                                        style={{
+                                                                            whiteSpace:
+                                                                                "pre-wrap",
+                                                                        }}
+                                                                    >
                                                                         {
                                                                             message
                                                                                 .message
@@ -937,16 +1008,46 @@ const ChatMessagePane = ({
                                                             )}
                                                             {message?.reactions && (
                                                                 <div className="message-reaction">
-                                                                    {
-                                                                        message?.reactions
-                                                                    }
+                                                                    {message?.reactions?.map(
+                                                                        (
+                                                                            reaction
+                                                                        ) => (
+                                                                            <span>
+                                                                                {
+                                                                                    reaction?.emoji
+                                                                                }
+                                                                            </span>
+                                                                        )
+                                                                    )}
                                                                 </div>
                                                             )}
                                                         </div>
                                                     )}
                                                     {message?.message?.type ==
                                                         "text" && (
-                                                        <div className="ctext-wrap-content ">
+                                                        <div
+                                                            className={classnames(
+                                                                "ctext-wrap-content ",
+                                                                {
+                                                                    " error-message":
+                                                                        isJsonString(
+                                                                            message
+                                                                                ?.message
+                                                                                ?.text
+                                                                        )
+                                                                            ? JSON.parse(
+                                                                                  message
+                                                                                      ?.message
+                                                                                      ?.text
+                                                                              )
+                                                                                  ?.raw_data
+                                                                                  ?.errors?.[0]
+                                                                                  ?.error_data
+                                                                                  ?.details
+                                                                            : false,
+                                                                }
+                                                            )}
+                                                        >
                                                             {message
                                                                 ?.reply_to_message
                                                                 ?.id && (
@@ -974,6 +1075,8 @@ const ChatMessagePane = ({
                                                                                         "60px",
                                                                                     overflow:
                                                                                         "hidden",
+                                                                                    whiteSpace:
+                                                                                        "pre-wrap",
                                                                                 }}
                                                                             >
                                                                                 {message
@@ -995,9 +1098,75 @@ const ChatMessagePane = ({
                                                                     )}
                                                                 </div>
                                                             )}
+                                                            {message?.message
+                                                                ?.text && (
+                                                                <p
+                                                                    className="mb-0 ctext-content px-3 py-2"
+                                                                    style={{
+                                                                        whiteSpace:
+                                                                            "pre-wrap",
+                                                                    }}
+                                                                >
+                                                                    {isJsonString(
+                                                                        message
+                                                                            ?.message
+                                                                            ?.text
+                                                                    )
+                                                                        ? JSON.parse(
+                                                                              message
+                                                                                  ?.message
+                                                                                  ?.text
+                                                                          )
+                                                                              ?.raw_data
+                                                                              ?.errors?.[0]
+                                                                              ?.error_data
+                                                                              ?.details
+                                                                            ? JSON.parse(
+                                                                                  message
+                                                                                      ?.message
+                                                                                      ?.text
+                                                                              )
+                                                                                  ?.raw_data
+                                                                                  ?.errors?.[0]
+                                                                                  ?.error_data
+                                                                                  ?.details
+                                                                            : message
+                                                                                  ?.message
+                                                                                  ?.text
+                                                                        : message
+                                                                              ?.message
+                                                                              ?.text}
+                                                                </p>
+                                                            )}
+                                                            {message?.reactions && (
+                                                                <div className="message-reaction">
+                                                                    {message?.reactions?.map(
+                                                                        (
+                                                                            reaction
+                                                                        ) => (
+                                                                            <span>
+                                                                                {
+                                                                                    reaction?.emoji
+                                                                                }
+                                                                            </span>
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                    {message?.message?.type ==
+                                                        "button" && (
+                                                        <div className="ctext-wrap-content ">
                                                             {message.message
                                                                 .text && (
-                                                                <p className="mb-0 ctext-content px-3 py-2">
+                                                                <p
+                                                                    className="mb-0 ctext-content px-3 py-2"
+                                                                    style={{
+                                                                        whiteSpace:
+                                                                            "pre-wrap",
+                                                                    }}
+                                                                >
                                                                     {
                                                                         message
                                                                             .message
@@ -1005,12 +1174,26 @@ const ChatMessagePane = ({
                                                                     }
                                                                 </p>
                                                             )}
-                                                            {message?.reactions && (
-                                                                <div className="message-reaction">
+                                                        </div>
+                                                    )}
+                                                    {message?.message?.type ==
+                                                        "log" && (
+                                                        <div className="ctext-wrap-content ">
+                                                            {message.message
+                                                                .text && (
+                                                                <p
+                                                                    className="mb-0 ctext-content px-3 py-2"
+                                                                    style={{
+                                                                        whiteSpace:
+                                                                            "pre-wrap",
+                                                                    }}
+                                                                >
                                                                     {
-                                                                        message?.reactions
+                                                                        message
+                                                                            .message
+                                                                            .text
                                                                     }
-                                                                </div>
+                                                                </p>
                                                             )}
                                                         </div>
                                                     )}
@@ -1048,6 +1231,8 @@ const ChatMessagePane = ({
                                                                                             "60px",
                                                                                         overflow:
                                                                                             "hidden",
+                                                                                        whiteSpace:
+                                                                                            "pre-wrap",
                                                                                     }}
                                                                                 >
                                                                                     {message
@@ -1072,7 +1257,13 @@ const ChatMessagePane = ({
                                                                 {message
                                                                     ?.message
                                                                     ?.title && (
-                                                                    <p className="mb-0 ctext-content px-3 py-2">
+                                                                    <p
+                                                                        className="mb-0 ctext-content px-3 py-2"
+                                                                        style={{
+                                                                            whiteSpace:
+                                                                                "pre-wrap",
+                                                                        }}
+                                                                    >
                                                                         {
                                                                             message
                                                                                 ?.message
@@ -1082,9 +1273,17 @@ const ChatMessagePane = ({
                                                                 )}
                                                                 {message?.reactions && (
                                                                     <div className="message-reaction">
-                                                                        {
-                                                                            message?.reactions
-                                                                        }
+                                                                        {message?.reactions?.map(
+                                                                            (
+                                                                                reaction
+                                                                            ) => (
+                                                                                <span>
+                                                                                    {
+                                                                                        reaction?.emoji
+                                                                                    }
+                                                                                </span>
+                                                                            )
+                                                                        )}
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -1123,6 +1322,8 @@ const ChatMessagePane = ({
                                                                                             "60px",
                                                                                         overflow:
                                                                                             "hidden",
+                                                                                        whiteSpace:
+                                                                                            "pre-wrap",
                                                                                     }}
                                                                                 >
                                                                                     {message
@@ -1149,7 +1350,13 @@ const ChatMessagePane = ({
                                                                         ?.message
                                                                         ?.replies
                                                                 ) && (
-                                                                    <p className="mb-0 ctext-content px-3 py-2">
+                                                                    <p
+                                                                        className="mb-0 ctext-content px-3 py-2"
+                                                                        style={{
+                                                                            whiteSpace:
+                                                                                "pre-wrap",
+                                                                        }}
+                                                                    >
                                                                         {message
                                                                             ?.message
                                                                             ?.replies[0] &&
@@ -1160,9 +1367,17 @@ const ChatMessagePane = ({
                                                                 )}
                                                                 {message?.reactions && (
                                                                     <div className="message-reaction">
-                                                                        {
-                                                                            message?.reactions
-                                                                        }
+                                                                        {message?.reactions?.map(
+                                                                            (
+                                                                                reaction
+                                                                            ) => (
+                                                                                <span>
+                                                                                    {
+                                                                                        reaction?.emoji
+                                                                                    }
+                                                                                </span>
+                                                                            )
+                                                                        )}
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -1222,6 +1437,8 @@ const ChatMessagePane = ({
                                                                                         "60px",
                                                                                     overflow:
                                                                                         "hidden",
+                                                                                    whiteSpace:
+                                                                                        "pre-wrap",
                                                                                 }}
                                                                             >
                                                                                 {message
@@ -1321,9 +1538,17 @@ const ChatMessagePane = ({
                                                             )}
                                                             {message?.reactions && (
                                                                 <div className="message-reaction">
-                                                                    {
-                                                                        message?.reactions
-                                                                    }
+                                                                    {message?.reactions?.map(
+                                                                        (
+                                                                            reaction
+                                                                        ) => (
+                                                                            <span>
+                                                                                {
+                                                                                    reaction?.emoji
+                                                                                }
+                                                                            </span>
+                                                                        )
+                                                                    )}
                                                                 </div>
                                                             )}
                                                         </div>
@@ -1468,7 +1693,7 @@ const ChatMessagePane = ({
                                                                     "ltr",
                                                             }}
                                                         >
-                                                            {handleMessageTimeMeta(
+                                                            {/* {handleMessageTimeMeta(
                                                                 message?.status
                                                                     ?.timestamp,
                                                                 language
@@ -1506,7 +1731,15 @@ const ChatMessagePane = ({
                                                                               ?.timestamp,
                                                                           language
                                                                       )
-                                                                  )}
+                                                                  )} */}
+                                                            {moment
+                                                                .unix(
+                                                                    message
+                                                                        ?.status
+                                                                        ?.timestamp
+                                                                )
+                                                                .local()
+                                                                .fromNow()}
                                                         </small>
                                                     )}
                                                     {message.status.value ==

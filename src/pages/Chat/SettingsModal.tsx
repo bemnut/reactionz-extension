@@ -3,19 +3,26 @@ import { Button, Row, Col, Label, Form, Input } from "reactstrap";
 import Select from "react-select";
 
 import { Link } from "react-router-dom";
+import classnames from "classnames";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import {
     changeLanguage as onChangeLanguage,
     changeShowOnFireberry as onChangeShowOnFireberry,
+    updateNotification as onUpdateNotification,
+    changeIsNotificaitonUpdated as onChangeIsNotificaitonUpdated,
 } from "../../slices/thunks";
 
 import { createSelector } from "reselect";
 
 import { useTranslation } from "react-i18next";
 import i18n from "../../locales/i18n";
-import { fontSizes, changeFontSize } from "./common_functions";
+import {
+    fontSizes,
+    changeFontSize,
+    NormalizeTextTitle,
+} from "./common_functions";
 
 const SettingsModal = ({
     settingsShow,
@@ -29,9 +36,10 @@ const SettingsModal = ({
     const chatProperties = createSelector(selectChatState, (state) => ({
         localLanguageState: state.Layout.language,
         showOnFireberryStatus: state.Layout.showOnFireberryStatus,
+        notification: state.Notification.notification,
     }));
     // Inside your component
-    const { localLanguageState, showOnFireberryStatus } =
+    const { localLanguageState, showOnFireberryStatus, notification } =
         useSelector(chatProperties);
     const [windowPosition, setWindowPosition] = useState<any>("");
     const [language, setLanguage] = useState<any>("");
@@ -218,6 +226,30 @@ const SettingsModal = ({
     //         changeFont(element.children[i]);
     //     }
     // }
+    const handleUpdateNotification = (availableChannel) => {
+        dispatch(onChangeIsNotificaitonUpdated(false));
+
+        var availableChannelWrapper, availableChannelInputs;
+        availableChannelWrapper = document.getElementById(availableChannel);
+        availableChannelInputs =
+            availableChannelWrapper &&
+            availableChannelWrapper.getElementsByTagName("input");
+
+        let arr = [];
+        Array.prototype.forEach.call(availableChannelInputs, function (input) {
+            arr.push({
+                [input.id]: `${input.checked}`,
+            });
+        });
+
+        let settings = Object.assign({}, ...arr);
+        let payload = {
+            channel: availableChannel,
+            settings: settings,
+        };
+
+        dispatch(onUpdateNotification(payload));
+    };
 
     return (
         <React.Fragment>
@@ -420,6 +452,129 @@ const SettingsModal = ({
                                                 }
                                                 value={showOnFireberry}
                                             />
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        className={classnames(
+                                            "mb-4 notifications ",
+                                            {
+                                                rtl:
+                                                    localLanguageState ==
+                                                    "IL_he",
+                                                ltr:
+                                                    localLanguageState !=
+                                                    "IL_he",
+                                            }
+                                        )}
+                                    >
+                                        <Label
+                                            htmlFor="group"
+                                            className="form-label text-muted fs-12"
+                                        >
+                                            {t("Notifications")}
+                                        </Label>
+                                        <div className="border border-1 .rounded-2 p-2">
+                                            {notification?.settings &&
+                                                Object.entries(
+                                                    notification?.settings
+                                                )?.map(
+                                                    ([
+                                                        availableChannel,
+                                                        value,
+                                                    ]) => (
+                                                        <>
+                                                            <div
+                                                                className={`mb-2 ${availableChannel} `}
+                                                                id={
+                                                                    availableChannel
+                                                                }
+                                                            >
+                                                                <div className="mb-1 text-muted fs-12">
+                                                                    {t(
+                                                                        `${
+                                                                            NormalizeTextTitle(
+                                                                                availableChannel
+                                                                            ) ==
+                                                                            "Sms"
+                                                                                ? "SMS"
+                                                                                : NormalizeTextTitle(
+                                                                                      availableChannel
+                                                                                  )
+                                                                        } Notifications`
+                                                                    )}
+                                                                </div>
+                                                                <div className="mb-1">
+                                                                    {Object.entries(
+                                                                        value
+                                                                    )?.map(
+                                                                        ([
+                                                                            key,
+                                                                            val,
+                                                                        ]) => (
+                                                                            <div className="form-check  form-check-success ">
+                                                                                <Input
+                                                                                    className="form-check-input"
+                                                                                    type="checkbox"
+                                                                                    name="conversations-list-assigned-to-me"
+                                                                                    id={`${key}`}
+                                                                                    defaultChecked={
+                                                                                        val ==
+                                                                                        "true"
+                                                                                            ? true
+                                                                                            : false
+                                                                                    }
+                                                                                    // onClick={() => {
+                                                                                    //     setConversationsListAssignedTo(
+                                                                                    //         "mine"
+                                                                                    //     );
+                                                                                    //     handleClearSearchInput();
+                                                                                    // }}
+                                                                                />
+                                                                                &rlm;
+                                                                                <Label
+                                                                                    className="form-check-label"
+                                                                                    for="flexRadioDefault1"
+                                                                                >
+                                                                                    {t(
+                                                                                        NormalizeTextTitle(
+                                                                                            key
+                                                                                        )
+                                                                                    )}
+                                                                                </Label>
+                                                                            </div>
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                                <div
+                                                                    style={{
+                                                                        alignItems:
+                                                                            "center",
+                                                                        display:
+                                                                            "flex",
+                                                                        justifyContent:
+                                                                            "flex-end",
+                                                                    }}
+                                                                >
+                                                                    <Button
+                                                                        type="button"
+                                                                        className="btn btn-sm btn-success"
+                                                                        onClick={() =>
+                                                                            handleUpdateNotification(
+                                                                                availableChannel
+                                                                            )
+                                                                        }
+                                                                        //disabled={campaign ? false : true}
+                                                                    >
+                                                                        {t(
+                                                                            "Save"
+                                                                        )}
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    )
+                                                )}
                                         </div>
                                     </div>
                                 </Form>

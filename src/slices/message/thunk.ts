@@ -10,6 +10,7 @@ import {
     sendCampaignMessage as onSendCampaignMessageApi,
     updateConversationStatus as onUpdateConversationStatusApi,
     markConversationAsRead as onMarkConversationAsReadApi,
+    markConversationAsUnRead as onMarkConversationAsUnReadApi,
     getMessageSnippets as onGetMessageSnippetsApi,
 } from "../../helpers/local_backend_helper";
 
@@ -84,6 +85,19 @@ export const markConversationAsRead = createAsyncThunk(
         }
     }
 );
+export const markConversationAsUnRead = createAsyncThunk(
+    "messages/markConversationAsUnRead",
+    async (payload: any) => {
+        try {
+            const response = onMarkConversationAsUnReadApi(payload);
+            return response;
+        } catch (error) {
+            return error;
+        }
+    }
+);
+
+
 
 export const sendTextMessage = createAsyncThunk(
     "messages/sendTextMessage",
